@@ -8,9 +8,13 @@ fn main() -> std::io::Result<()> {
 
     let config = read_config()?;
 
+    let env_path: Vec<String> = env::args().skip(1).collect();
+    if env_path.len() <= 0 {
+        return Ok(());
+    }
+
     loop {
-        let env_path: Vec<String> = env::args().skip(1).collect();
-        for path in env_path {
+        for path in &env_path {
             if let Ok(dir) = fs::read_dir(path.clone()) {
                 let _ = delete_sub_entry(dir);
             }
